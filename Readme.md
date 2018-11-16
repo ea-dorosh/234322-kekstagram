@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Егор Дорош](https://up.htmlacademy.ru/javascript/16/user/234322).
-* Наставник: `Неизвестно`.
+* Наставник: `Мария Филиппова`.
 
 ---
 
