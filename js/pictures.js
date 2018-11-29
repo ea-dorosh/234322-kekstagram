@@ -56,7 +56,7 @@ var generateOneComment = function () {
 var getComments = function () {
   var comments = [];
   var quantity = getRandomNumber(1, 10);
-  for (var i = 0; i < quantity.length; i++) {
+  for (var i = 0; i < quantity; i++) {
     comments[i] = generateOneComment();
   }
   return comments;
@@ -78,14 +78,12 @@ var generatePhoto = function (count) {
 // создаем массив с объектами фотографий
 var photos = generatePhoto(PHOTO_QUANTITY);
 
-// ищем готовую разметку в html
+
+// ищем готовую разметку в html для маленьких картинок
 var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
-
 var appendPictures = function () {
-
   // создаем искуственный блок ФРАГМЕНТ
   var fragment = document.createDocumentFragment();
-
   for (var i = 0; i < photos.length; i++) {
     var element = pictureTemplate.cloneNode(true);
     element.querySelector('.picture__img').src = photos[i].url;
@@ -93,7 +91,6 @@ var appendPictures = function () {
     element.querySelector('.picture__comments').textContent = photos[i].comments.length;
     fragment.appendChild(element);
   }
-
   // вставляем ФРАГМЕНТ в разметку
   document.querySelector('.pictures').appendChild(fragment);
 };
@@ -102,29 +99,37 @@ appendPictures();
 
 // задание №4
 
-// создаем большую фотографию
+// ищем готовую разметку в html для рандомных комментариев
+var commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
+var renderComment = function (comments) {
+  var commentsList = document.querySelector('.social__comments');
+  commentsList.innerHTML = '';
+  // создаем искуственный блок ФРАГМЕНТ
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < comments.length; i++) {
+    var element = commentTemplate.cloneNode(true);
+    element.querySelector('.social__picture').src = 'img/avatar-' + getRandomNumber(1, 6) + '.svg';
+    element.querySelector('.social__text').textContent = comments[i];
+    fragment.appendChild(element);
+  }
+  // вставляем ФРАГМЕНТ в разметку
+  document.querySelector('.social__comments').appendChild(fragment);
+};
 
+// создаем большую фотографию
 var renderBigPicture = function (photo) {
   var bigPicture = document.querySelector('.big-picture');
-
   bigPicture.classList.remove('hidden');
   bigPicture.querySelector('.big-picture__img').querySelector('img').src = photo.url;
   bigPicture.querySelector('.likes-count').textContent = photo.likes;
   bigPicture.querySelector('.comments-count').textContent = photo.comments.length;
+  bigPicture.querySelector('.social__caption').textContent = photos[0].description;
+  renderComment(photos[0].comments);
 };
 
 renderBigPicture(photos[getRandomNumber(0, PHOTO_QUANTITY)]);
 
-
-var socialComments = document.querySelector('.social__comments');
-
-
-socialComments.querySelector('.social__picture').src = 'img/avatar-' + getRandomNumber(1, 6) + '.svg';
-socialComments.querySelector('.social__text').textContent = photos[0].comments;
-document.querySelector('.social__caption').textContent = photos[0].description;
-
 // задание №5
-
 
 document.querySelector('.social__comment-count').classList.add('visually-hidden');
 document.querySelector('.comments-loader').classList.add('visually-hidden');
