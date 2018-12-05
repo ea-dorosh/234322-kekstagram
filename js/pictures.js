@@ -3,8 +3,11 @@
 // общее кол-во фотографий
 var PHOTO_QUANTITY = 25;
 
-var MAX_LIKES = 200;
-var MIN_LIKES = 15;
+var Like = {
+  MIN: 15,
+  MAX: 200
+};
+
 var ESC_KEYCODE = 27;
 
 var body = document.querySelector('body');
@@ -41,7 +44,7 @@ var getRandomElement = function (elements) {
 
 // получаем лайки
 var getLikes = function () {
-  return getRandomNumber(MIN_LIKES, MAX_LIKES);
+  return getRandomNumber(Like.MIN, Like.MAX);
 };
 
 // получаем один комментарий, который состоит из одного или двух фраз массива COMMENTS
@@ -131,11 +134,24 @@ var renderComment = function (comments) {
   document.querySelector('.social__comments').appendChild(fragment);
 };
 
-// создаем большую фотографию
+// функция которая открывает большую фотографию
+var openBigPhoto = function () {
+  bigPicture.classList.remove('hidden');
+  body.classList.add('modal-open');
+  document.addEventListener('keydown', onEscPress);
+};
+
+// функция которая закрывает большую фотографию
+var closeBigPhoto = function () {
+  bigPicture.classList.add('hidden');
+  body.classList.remove('modal-open');
+  document.removeEventListener('keydown', onEscPress);
+};
+
+// открываем большую фотографию
 var bigPicture = document.querySelector('.big-picture');
 var renderBigPicture = function (photo) {
-  body.classList.add('modal-open');
-  bigPicture.classList.remove('hidden');
+  openBigPhoto();
   bigPicture.querySelector('.big-picture__img').querySelector('img').src = photo.url;
   bigPicture.querySelector('.likes-count').textContent = photo.likes;
   bigPicture.querySelector('.comments-count').textContent = photo.comments.length;
@@ -143,49 +159,59 @@ var renderBigPicture = function (photo) {
   renderComment(photo.comments);
 };
 
+// закрываем большую фотографию
+var buttonClose = bigPicture.querySelector('.big-picture__cancel');
+buttonClose.addEventListener('click', function () {
+  closeBigPhoto();
+});
+
 // прячем блок счетчиков комментариев
 bigPicture.querySelector('.social__comment-count').classList.add('visually-hidden');
 
 // прячем загрузку новых комментариев
 bigPicture.querySelector('.comments-loader').classList.add('visually-hidden');
 
-// закрываем большую фотографию крестиком
-var buttonClose = bigPicture.querySelector('.big-picture__cancel');
-buttonClose.addEventListener('click', function () {
-  bigPicture.classList.add('hidden');
-  body.classList.remove('modal-open');
-});
 
-// закрываем большую фотографию esc
-document.addEventListener('keydown', function (evt) {
+// функция которая закрывает открыте окна с помощью "esc"
+var onEscPress = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
-    bigPicture.classList.add('hidden');
-    body.classList.remove('modal-open');
-    // закрываем форму редактирования изображения
-    imageEdit.classList.add('hidden');
+    uploadFileClose();
+    closeBigPhoto();
   }
-});
+};
+
+// функция которая открывает форму загрузки новой фотографии
+var uploadFileOpen = function () {
+  imageEdit.classList.remove('hidden');
+  uploadFile.value = '';
+  body.classList.add('modal-open');
+  document.addEventListener('keydown', onEscPress);
+};
+
+// функция которая закрывает форму загрузки новой фотографии
+var uploadFileClose = function () {
+  imageEdit.classList.add('hidden');
+  body.classList.remove('modal-open');
+  document.removeEventListener('keydown', onEscPress);
+};
 
 // открываем форму редактирования изображения при действие change в форме загрузки новых фотографий
 var uploadFile = document.querySelector('#upload-file');
 var imageEdit = document.querySelector('.img-upload__overlay');
 uploadFile.addEventListener('change', function () {
-  imageEdit.classList.remove('hidden');
-  uploadFile.value = '';
-  body.classList.add('modal-open');
+  uploadFileOpen();
 });
 
-// закрываем форму редактирования изображения крестиком
+// закрываем форму редактирования изображения мышкой
 var imageEditCloseBtn = imageEdit.querySelector('.img-upload__cancel');
 imageEditCloseBtn.addEventListener('click', function () {
-  imageEdit.classList.add('hidden');
-  body.classList.remove('modal-open');
+  uploadFileClose();
 });
 
 //
 // уменьшение и увеличение загружаемой фотографии
 //
-var scaleValue = {
+var ScaleValue = {
   MIN: 25,
   STEP: 25,
   MAX: 100,
@@ -196,8 +222,8 @@ var imgUploadPreview = document.querySelector('.img-upload__preview');
 
 var setPhotoScale = function (figure) {
   var currentScale = parseInt(scaleControlValue.value, 10);
-  currentScale = currentScale + (scaleValue.STEP * figure);
-  if (currentScale >= scaleValue.MIN && currentScale <= scaleValue.MAX) {
+  currentScale = currentScale + (ScaleValue.STEP * figure);
+  if (currentScale >= ScaleValue.MIN && currentScale <= ScaleValue.MAX) {
     scaleControlValue.value = currentScale + '%';
     imgUploadPreview.style.transform = 'scale(' + currentScale / 100 + ')';
   }
@@ -224,5 +250,7 @@ filterRadioBtn.addEventListener('change', function () {
   imgUploadPreview.className = 'effects__preview--' + filterChecked.value;
   if (imgUploadPreview.classList.contains('effects__preview--none')) {
     filterSlider.classList.add('hidden');
+  } else {
+    filterSlider.classList.remove('hidden');
   }
 });
