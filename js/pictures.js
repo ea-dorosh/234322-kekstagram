@@ -175,7 +175,7 @@ bigPicture.querySelector('.comments-loader').classList.add('visually-hidden');
 // функция которая закрывает открыте окна с помощью "esc"
 var onEscPress = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
-    uploadFileClose();
+    closeForm();
     closeBigPhoto();
   }
 };
