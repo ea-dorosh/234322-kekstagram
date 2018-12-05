@@ -181,7 +181,7 @@ var onEscPress = function (evt) {
 };
 
 // функция которая открывает форму загрузки новой фотографии
-var uploadFileOpen = function () {
+var openForm = function () {
   imageEdit.classList.remove('hidden');
   uploadFile.value = '';
   body.classList.add('modal-open');
@@ -189,7 +189,7 @@ var uploadFileOpen = function () {
 };
 
 // функция которая закрывает форму загрузки новой фотографии
-var uploadFileClose = function () {
+var closeForm = function () {
   imageEdit.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEscPress);
@@ -199,13 +199,13 @@ var uploadFileClose = function () {
 var uploadFile = document.querySelector('#upload-file');
 var imageEdit = document.querySelector('.img-upload__overlay');
 uploadFile.addEventListener('change', function () {
-  uploadFileOpen();
+  openForm();
 });
 
 // закрываем форму редактирования изображения мышкой
 var imageEditCloseBtn = imageEdit.querySelector('.img-upload__cancel');
 imageEditCloseBtn.addEventListener('click', function () {
-  uploadFileClose();
+  closeForm();
 });
 
 //
@@ -218,7 +218,7 @@ var ScaleValue = {
   DEFAULT: 100
 };
 var scaleControlValue = imageEdit.querySelector('.scale__control--value');
-var imgUploadPreview = document.querySelector('.img-upload__preview');
+var imgUploadPreview = document.querySelector('.img-upload__preview img');
 
 var setPhotoScale = function (figure) {
   var currentScale = parseInt(scaleControlValue.value, 10);
