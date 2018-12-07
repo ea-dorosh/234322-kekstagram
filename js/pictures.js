@@ -297,8 +297,47 @@ descriptionTextarea.addEventListener('focusout', function () {
 // получаем хэштеги и записываем их в массив
 var hashTagsArr = [];
 var getHashTags = function () {
-  hashTagsArr = hashTagsInput.value.split(' ');
-  return hashTagsArr.toLowerCase();
+  hashTagsArr = hashTagsInput.value.toLowerCase().split(' ');
+  return hashTagsArr;
+};
+
+// функция которая проверяет хэштеги из массива на валидность
+var checkHashTagsValidity = function (hashTags) {
+  var errorText = '';
+
+  for (var i = 0; i < hashTags.length; i++) {
+    var hashTag = hashTags[i];
+    if (hashTag[0] !== '#') {
+      errorText = 'Хэш-тег должен начинаться с решетки #';
+    } else if (hashTag.length === 1) {
+      errorText = 'Хеш-тег не может состоять только из одной решётки';
+    } else if (hashTag.length > 20) {
+      errorText = 'Максимальная длина одного хэш-тега 20 символов';
+    } else if (hashTag.indexOf('#', 1) > 1) {
+      errorText = 'Хэштеги должны разделяться пробелами';
+    }
+  }
+
+  if (checkSameElement(hashTags)) {
+    errorText = 'Один и тот же хэш-тег не может быть использован дважды';
+  } else if (hashTags.length > 5) {
+    errorText = 'Нельзя указать больше пяти хэш-тегов';
+  }
+
+  hashTagsInput.setCustomValidity(errorText);
+};
+
+// функция которая проверяет наличие одинаковых элементов в массиве
+var checkSameElement = function (elements) {
+  var sameElement = false;
+  for (var i = 0; i <= elements.length - 2; i++) {
+    var element = elements[i];
+    for (var j = i + 1; j <= elements.length - 1; j++) {
+      if (element === elements[j]) {
+        sameElement = true;
+      }
+    }
+  } return sameElement;
 };
 
 // при нажатии на кнопку "отправить" запускаем проверку на наличие хэштегов
@@ -309,34 +348,3 @@ buttonSendForm.addEventListener('click', function () {
     checkHashTagsValidity(hashTagsArr);
   }
 });
-
-// функция которая проверяет хэштеги из массива на валидность
-var checkHashTagsValidity = function (arr) {
-  for (var i = 0; i < arr.length; i++) {
-    var element = arr[i];
-    if (element[0] !== '#') {
-      hashTagsInput.setCustomValidity('хэш-тег должен начинаться с решетки #');
-    } else if (element.length < 2) {
-      hashTagsInput.setCustomValidity('хеш-тег не может состоять только из одной решётки');
-    } else if (element.length > 20) {
-      hashTagsInput.setCustomValidity('максимальная длина одного хэш-тега 20 символов');
-    } else if (arr.length > 5) {
-      hashTagsInput.setCustomValidity('нельзя указать больше пяти хэш-тегов');
-    } else if (checkSameElement(arr)) {
-      hashTagsInput.setCustomValidity('один и тот же хэш-тег не может быть использован дважды');
-    }
-  }
-};
-
-// функция которая проверяет наличие одинаковых элементов в массиве
-var checkSameElement = function (arr) {
-  var sameElement = false;
-  for (var i = 0; i <= arr.length - 2; i++) {
-    var element = arr[i];
-    for (var j = i + 1; j <= arr.length - 1; j++) {
-      if (element === arr[j]) {
-        sameElement = true;
-      }
-    }
-  } return sameElement;
-};
