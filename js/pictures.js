@@ -294,36 +294,33 @@ descriptionTextarea.addEventListener('focusout', function () {
   document.addEventListener('keydown', onEscPress);
 });
 
-// получаем хэштеги и записываем их в массив
-var hashTagsArr = [];
-var getHashTags = function () {
-  hashTagsArr = hashTagsInput.value.toLowerCase().split(' ');
-  return hashTagsArr;
-};
-
 // функция которая проверяет хэштеги из массива на валидность
-var checkHashTagsValidity = function (hashTags) {
+var checkHashTagsValidity = function () {
   var errorText = '';
+  var hashTagValue = hashTagsInput.value.trim();
+  if (hashTagValue !== '') {
+    var hashTags = hashTagValue.toLowerCase().split(' ');
 
-  for (var i = 0; i < hashTags.length; i++) {
-    var hashTag = hashTags[i];
-    if (hashTag[0] !== '#') {
-      errorText = 'Хэш-тег должен начинаться с решетки #';
-    } else if (hashTag.length === 1) {
-      errorText = 'Хеш-тег не может состоять только из одной решётки';
-    } else if (hashTag.length > 20) {
-      errorText = 'Максимальная длина одного хэш-тега 20 символов';
-    } else if (hashTag.indexOf('#', 1) > 1) {
-      errorText = 'Хэштеги должны разделяться пробелами';
+
+    for (var i = 0; i < hashTags.length; i++) {
+      var hashTag = hashTags[i];
+      if (hashTag[0] !== '#') {
+        errorText = 'Хэш-тег должен начинаться с решетки #';
+      } else if (hashTag.length === 1) {
+        errorText = 'Хеш-тег не может состоять только из одной решётки';
+      } else if (hashTag.length > 20) {
+        errorText = 'Максимальная длина одного хэш-тега 20 символов';
+      } else if (hashTag.indexOf('#', 1) > 1) {
+        errorText = 'Хэштеги должны разделяться пробелами';
+      }
+    }
+
+    if (checkSameElement(hashTags)) {
+      errorText = 'Один и тот же хэш-тег не может быть использован дважды';
+    } else if (hashTags.length > 5) {
+      errorText = 'Нельзя указать больше пяти хэш-тегов';
     }
   }
-
-  if (checkSameElement(hashTags)) {
-    errorText = 'Один и тот же хэш-тег не может быть использован дважды';
-  } else if (hashTags.length > 5) {
-    errorText = 'Нельзя указать больше пяти хэш-тегов';
-  }
-
   hashTagsInput.setCustomValidity(errorText);
 };
 
@@ -343,8 +340,5 @@ var checkSameElement = function (elements) {
 // при нажатии на кнопку "отправить" запускаем проверку на наличие хэштегов
 var buttonSendForm = document.querySelector('.img-upload__submit');
 buttonSendForm.addEventListener('click', function () {
-  getHashTags();
-  if (hashTagsArr.length !== 0) {
-    checkHashTagsValidity(hashTagsArr);
-  }
+  checkHashTagsValidity();
 });
