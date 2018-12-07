@@ -183,13 +183,13 @@ var onEscPress = function (evt) {
 // функция которая открывает форму загрузки новой фотографии
 var openForm = function () {
   imageEdit.classList.remove('hidden');
-  uploadFile.value = '';
   body.classList.add('modal-open');
   document.addEventListener('keydown', onEscPress);
 };
 
 // функция которая закрывает форму загрузки новой фотографии
 var closeForm = function () {
+  uploadFile.value = '';
   imageEdit.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEscPress);
@@ -254,3 +254,89 @@ filterRadioBtn.addEventListener('change', function () {
     filterSlider.classList.remove('hidden');
   }
 });
+
+//
+// валидность хэштегов
+//
+
+/*
+готово! хэш-теги необязательны;
+готово! хэш-тег начинается с символа # (решётка);
+готово! хеш-тег не может состоять только из одной решётки;
+  хэш-теги разделяются пробелами;
+готово! один и тот же хэш-тег не может быть использован дважды;
+готово! нельзя указать больше пяти хэш-тегов;
+готово! максимальная длина одного хэш-тега 20 символов, включая решётку;
+готово! теги нечувствительны к регистру: #ХэшТег и #хэштег считаются одним и тем же тегом.
+готово! если фокус находится в поле ввода хэш-тега, нажатие на Esc не должно приводить к закрытию формы редактирования изображения.
+*/
+
+// пунк ТЗ если фокус находится в поле ввода хэш-тега,
+// нажатие на Esc не должно приводить к закрытию формы редактирования изображения.
+
+var hashTagsInput = document.querySelector('.text__hashtags');
+hashTagsInput.addEventListener('focusin', function () {
+  document.removeEventListener('keydown', onEscPress);
+});
+
+hashTagsInput.addEventListener('focusout', function () {
+  document.addEventListener('keydown', onEscPress);
+});
+
+// пунк ТЗ если фокус находится в поле ввода комментария,
+// нажатие на Esc не должно приводить к закрытию формы редактирования изображения.
+var descriptionTextarea = document.querySelector('.text__description');
+descriptionTextarea.addEventListener('focusin', function () {
+  document.removeEventListener('keydown', onEscPress);
+});
+
+descriptionTextarea.addEventListener('focusout', function () {
+  document.addEventListener('keydown', onEscPress);
+});
+
+// получаем хэштеги и записываем их в массив
+var hashTagsArr = [];
+var getHashTags = function () {
+  hashTagsArr = hashTagsInput.value.split(' ');
+  return hashTagsArr.toLowerCase();
+};
+
+// при нажатии на кнопку "отправить" запускаем проверку на наличие хэштегов
+var buttonSendForm = document.querySelector('.img-upload__submit');
+buttonSendForm.addEventListener('click', function () {
+  getHashTags();
+  if (hashTagsArr.length !== 0) {
+    checkHashTagsValidity(hashTagsArr);
+  }
+});
+
+// функция которая проверяет хэштеги из массива на валидность
+var checkHashTagsValidity = function (arr) {
+  for (var i = 0; i < arr.length; i++) {
+    var element = arr[i];
+    if (element[0] !== '#') {
+      hashTagsInput.setCustomValidity('хэш-тег должен начинаться с решетки #');
+    } else if (element.length < 2) {
+      hashTagsInput.setCustomValidity('хеш-тег не может состоять только из одной решётки');
+    } else if (element.length > 20) {
+      hashTagsInput.setCustomValidity('максимальная длина одного хэш-тега 20 символов');
+    } else if (arr.length > 5) {
+      hashTagsInput.setCustomValidity('нельзя указать больше пяти хэш-тегов');
+    } else if (checkSameElement(arr)) {
+      hashTagsInput.setCustomValidity('один и тот же хэш-тег не может быть использован дважды');
+    }
+  }
+};
+
+// функция которая проверяет наличие одинаковых элементов в массиве
+var checkSameElement = function (arr) {
+  var sameElement = false;
+  for (var i = 0; i <= arr.length - 2; i++) {
+    var element = arr[i];
+    for (var j = i + 1; j <= arr.length - 1; j++) {
+      if (element === arr[j]) {
+        sameElement = true;
+      }
+    }
+  } return sameElement;
+};
