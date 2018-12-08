@@ -263,7 +263,7 @@ filterRadioBtn.addEventListener('change', function () {
 готово! хэш-теги необязательны;
 готово! хэш-тег начинается с символа # (решётка);
 готово! хеш-тег не может состоять только из одной решётки;
-  хэш-теги разделяются пробелами;
+готово! хэш-теги разделяются пробелами;
 готово! один и тот же хэш-тег не может быть использован дважды;
 готово! нельзя указать больше пяти хэш-тегов;
 готово! максимальная длина одного хэш-тега 20 символов, включая решётку;
@@ -341,4 +341,34 @@ var checkSameElement = function (elements) {
 var buttonSendForm = document.querySelector('.img-upload__submit');
 buttonSendForm.addEventListener('click', function () {
   checkHashTagsValidity();
+});
+
+//
+// перетаскиваем ползунок слайдера DragAndDrop
+//
+var levelPinHandle = imageEdit.querySelector('.effect-level__pin');
+levelPinHandle.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+
+  var startCoords = evt.clientX;
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shift = startCoords - moveEvt.clientX;
+
+    startCoords = moveEvt.clientX;
+
+    levelPinHandle.style.left = (levelPinHandle.offsetLeft - shift) + 'px';
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
 });
