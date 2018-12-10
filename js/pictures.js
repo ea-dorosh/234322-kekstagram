@@ -243,15 +243,15 @@ scaleControlBigger.addEventListener('click', function () {
 //
 // изменение фильтра на фотографии
 //
-var filterSlider = document.querySelector('.img-upload__effect-level');
+var effectLevelElement = document.querySelector('.img-upload__effect-level');
 var filterRadioBtn = document.querySelector('.img-upload__effects');
 filterRadioBtn.addEventListener('change', function () {
   var filterChecked = filterRadioBtn.querySelector('input:checked');
   imgUploadPreview.className = 'effects__preview--' + filterChecked.value;
   if (imgUploadPreview.classList.contains('effects__preview--none')) {
-    filterSlider.classList.add('hidden');
+    effectLevelElement.classList.add('hidden');
   } else {
-    filterSlider.classList.remove('hidden');
+    effectLevelElement.classList.remove('hidden');
   }
 });
 
@@ -346,8 +346,23 @@ buttonSendForm.addEventListener('click', function () {
 //
 // перетаскиваем ползунок слайдера DragAndDrop
 //
-var levelPinHandle = imageEdit.querySelector('.effect-level__pin');
-levelPinHandle.addEventListener('mousedown', function (evt) {
+var effectPinElement = imageEdit.querySelector('.effect-level__pin');
+var effectLevelValueElement = effectLevelElement.querySelector('.effect-level__value');
+var effectDepthElement = effectLevelElement.querySelector('.effect-level__depth');
+var effectLineElement = effectLevelElement.querySelector('.effect-level__line');
+
+var PinValue = {
+  MIN: 0,
+  MAX: 100
+};
+
+var setPinPosition = function (value) {
+  effectPinElement.style.left = value + '%';
+  effectLevelValueElement.value = Math.round(value);
+  effectDepthElement.style.width = effectPinElement.style.left;
+};
+
+effectPinElement.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
 
   var startCoords = evt.clientX;
@@ -356,15 +371,23 @@ levelPinHandle.addEventListener('mousedown', function (evt) {
     moveEvt.preventDefault();
 
     var shift = startCoords - moveEvt.clientX;
+    var sliderLine = effectLineElement.getBoundingClientRect();
+    var newPosition = (effectPinElement.offsetLeft - shift) / sliderLine.width * 100;
+
+    if (newPosition <= PinValue.MIN) {
+      newPosition = PinValue.MIN;
+    } else if (newPosition >= PinValue.MAX) {
+      newPosition = PinValue.MAX;
+    }
+    setPinPosition(newPosition);
 
     startCoords = moveEvt.clientX;
 
-    levelPinHandle.style.left = (levelPinHandle.offsetLeft - shift) + 'px';
+    effectPinElement.style.left = (effectPinElement.offsetLeft - shift) + 'px';
   };
 
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
-
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
   };
