@@ -11,12 +11,9 @@
     getRandomElement: function (elements) {
       return elements[window.util.getRandomNumber(0, elements.length - 1)];
     },
-    KeyCode: {
-      ENTER: 13,
-      ESC: 27
-    },
+    KEYCODE_ESC: 27,
     onEscPress: function (evt, action) {
-      if (evt.keyCode === window.util.KeyCode.ESC) {
+      if (evt.keyCode === window.util.KeyCode.KEYCODE_ESC) {
         action();
       }
     },
