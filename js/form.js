@@ -3,11 +3,15 @@
 // form.js модуль, который работает с формой редактирования изображения.
 
 (function () {
+
+  var onEscPress = function (evt) {
+    window.util.onEscPress(evt, closeForm);
+  };
   // функция которая открывает форму загрузки новой фотографии
   var openForm = function () {
     imageEdit.classList.remove('hidden');
     window.util.body.classList.add('modal-open');
-    document.addEventListener('keydown', window.util.onEscPress);
+    document.addEventListener('keydown', onEscPress);
   };
 
   // функция которая закрывает форму загрузки новой фотографии
@@ -15,7 +19,7 @@
     uploadFile.value = '';
     imageEdit.classList.add('hidden');
     window.util.body.classList.remove('modal-open');
-    document.removeEventListener('keydown', window.util.onEscPress);
+    document.removeEventListener('keydown', onEscPress);
   };
 
   // открываем форму редактирования изображения при действие change в форме загрузки новых фотографий
@@ -30,6 +34,7 @@
   imageEditCloseBtn.addEventListener('click', function () {
     closeForm();
   });
+
 
   var form = document.querySelector('.img-upload__form');
   form.addEventListener('submit', function (evt) {
@@ -52,22 +57,22 @@
 
   var hashTagsInput = document.querySelector('.text__hashtags');
   hashTagsInput.addEventListener('focusin', function () {
-    document.removeEventListener('keydown', window.util.onEscPress);
+    document.removeEventListener('keydown', onEscPress);
   });
 
   hashTagsInput.addEventListener('focusout', function () {
-    document.addEventListener('keydown', window.util.onEscPress);
+    document.addEventListener('keydown', onEscPress);
   });
 
   // пунк ТЗ если фокус находится в поле ввода комментария,
   // нажатие на Esc не должно приводить к закрытию формы редактирования изображения.
   var descriptionTextarea = document.querySelector('.text__description');
   descriptionTextarea.addEventListener('focusin', function () {
-    document.removeEventListener('keydown', window.util.onEscPress);
+    document.removeEventListener('keydown', onEscPress);
   });
 
   descriptionTextarea.addEventListener('focusout', function () {
-    document.addEventListener('keydown', window.util.onEscPress);
+    document.addEventListener('keydown', onEscPress);
   });
 
   // функция которая проверяет хэштеги из массива на валидность
