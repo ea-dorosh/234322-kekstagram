@@ -13,7 +13,7 @@
     },
     KEYCODE_ESC: 27,
     onEscPress: function (evt, action) {
-      if (evt.keyCode === window.util.KeyCode.KEYCODE_ESC) {
+      if (evt.keyCode === window.util.KEYCODE_ESC) {
         action();
       }
     },

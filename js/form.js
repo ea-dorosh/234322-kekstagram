@@ -31,6 +31,14 @@
     closeForm();
   });
 
+  var form = document.querySelector('.img-upload__form');
+  form.addEventListener('submit', function (evt) {
+    window.backend.upload(new FormData(form), function () {
+      closeForm();
+    });
+    evt.preventDefault();
+  });
+
   window.form = {
     imageEdit: imageEdit,
   };

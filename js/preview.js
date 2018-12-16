@@ -3,6 +3,7 @@
 // preview.js модуль для отрисовки увеличенного изображения;
 
 (function () {
+
   // комментарии для большого фото
   // ищем готовую разметку в html для рандомных комментариев
   var commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
@@ -61,7 +62,7 @@
   bigPicture.querySelector('.comments-loader').classList.add('visually-hidden');
 
 
-  window.data = {
+  window.preview = {
     renderBigPicture: renderBigPicture
   };
 })();

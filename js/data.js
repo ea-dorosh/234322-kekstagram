@@ -2,6 +2,7 @@
 
 // data.js — модуль, который создаёт данные;
 
+/*
 (function () {
   // общее кол-во фотографий
   var PHOTO_QUANTITY = 25;
@@ -73,6 +74,21 @@
   // запускаем создание массива с нужным кол-вом фотографий
   var photos = generatePhoto(PHOTO_QUANTITY);
 
+  /*
+  var appendPictures = function () {
+    // создаем искуственный блок ФРАГМЕНТ
+    var fragment = document.createDocumentFragment();
+    for (var i = 0; i < photos.length; i++) {
+      fragment.appendChild(renderPicture(photos[i]));
+    }
+    // вставляем ФРАГМЕНТ в разметку
+    document.querySelector('.pictures').appendChild(fragment);
+  };
+
+  appendPictures();
+*/
+
+(function () {
   // ищем готовую разметку в html-странице для маленьких картинок
   var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
@@ -88,22 +104,18 @@
 
     // обработчик для создания большой фотографии
     element.addEventListener('click', function () {
-      window.data.renderBigPicture(photo);
+      window.preview.renderBigPicture(photo);
     });
     return element;
   };
 
-  //
-  var appendPictures = function () {
+  window.backend.load(function (pictures) {
     // создаем искуственный блок ФРАГМЕНТ
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < photos.length; i++) {
-      fragment.appendChild(renderPicture(photos[i]));
+    for (var i = 0; i < pictures.length; i++) {
+      fragment.appendChild(renderPicture(pictures[i]));
     }
     // вставляем ФРАГМЕНТ в разметку
     document.querySelector('.pictures').appendChild(fragment);
-  };
-
-  appendPictures();
-
+  });
 })();
