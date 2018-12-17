@@ -60,18 +60,11 @@
     window.util.onEscPress(evt, closeMessage);
   };
 
-  var messageClickBtn = function (evt) {
-    var target = evt.target;
-    if (target.tagName === 'button') {
-      closeMessage();
-    }
-  };
-
   var closeMessage = function () {
     var modalElement = main.querySelector('.message');
     main.removeChild(modalElement);
     document.removeEventListener('keydown', onMessageEscPress);
-    modalElement.removeEventListener('click', messageClickBtn);
+    main.removeEventListener('click', closeMessage);
   };
 
   var showSuccesMessage = function (element) {
@@ -80,7 +73,7 @@
     element.querySelector('.success__button').addEventListener('click', function () {
       closeMessage();
     });
-    element.addEventListener('click', messageClickBtn);
+    main.addEventListener('click', closeMessage);
   };
 
   var showErrorMessage = function (element, text) {
@@ -89,7 +82,7 @@
     element.querySelector('.error__button').addEventListener('click', function () {
       closeMessage();
     });
-    element.addEventListener('click', messageClickBtn);
+    element.addEventListener('click', closeMessage);
     document.addEventListener('keydown', onMessageEscPress);
   };
 
