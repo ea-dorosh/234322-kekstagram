@@ -3,8 +3,8 @@
 // form.js модуль, который работает с формой редактирования изображения.
 
 (function () {
-  var successForm = document.querySelector('#success').content.querySelector('.success');
-  var errorForm = document.querySelector('#error').content.querySelector('.error');
+  var successElement = document.querySelector('#success').content.querySelector('.success');
+  var errorElement = document.querySelector('#error').content.querySelector('.error');
   var main = document.querySelector('main');
 
   var onEscPress = function (evt) {
@@ -38,17 +38,19 @@
     closeForm();
   });
 
+  var onSuccess = function () {
+    closeForm();
+    showSuccesMessage();
+  };
+
+  var onError = function (error) {
+    closeForm();
+    showErrorMessage(error);
+  };
 
   var form = document.querySelector('.img-upload__form');
   form.addEventListener('submit', function (evt) {
-    window.backend.upload(new FormData(form), function (onSucess, onError) {
-      closeForm();
-      if (onSucess) {
-        showSuccesMessage(successForm);
-      } else if (onError) {
-        showErrorMessage(errorForm);
-      }
-    });
+    window.backend.upload(new FormData(form), onSuccess, onError);
     evt.preventDefault();
   });
 
@@ -67,23 +69,17 @@
     main.removeEventListener('click', closeMessage);
   };
 
-  var showSuccesMessage = function (element) {
+  var showSuccesMessage = function () {
     document.addEventListener('keydown', onMessageEscPress);
-    main.appendChild(element);
-    element.querySelector('.success__button').addEventListener('click', function () {
-      closeMessage();
-    });
+    main.appendChild(successElement);
     main.addEventListener('click', closeMessage);
   };
 
-  var showErrorMessage = function (element, text) {
-    main.appendChild(element);
-    element.querySelector('.error__title').textContent = text;
-    element.querySelector('.error__button').addEventListener('click', function () {
-      closeMessage();
-    });
-    element.addEventListener('click', closeMessage);
+  var showErrorMessage = function (text) {
+    main.appendChild(errorElement);
+    errorElement.querySelector('.error__title').textContent = text;
     document.addEventListener('keydown', onMessageEscPress);
+    errorElement.addEventListener('click', closeMessage);
   };
 
   //
