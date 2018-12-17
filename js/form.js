@@ -3,6 +3,9 @@
 // form.js модуль, который работает с формой редактирования изображения.
 
 (function () {
+  var successForm = document.querySelector('#success').content.querySelector('.success');
+  var errorForm = document.querySelector('#error').content.querySelector('.error');
+  var main = document.querySelector('main');
 
   var onEscPress = function (evt) {
     window.util.onEscPress(evt, closeForm);
@@ -38,14 +41,56 @@
 
   var form = document.querySelector('.img-upload__form');
   form.addEventListener('submit', function (evt) {
-    window.backend.upload(new FormData(form), function () {
+    window.backend.upload(new FormData(form), function (onSucess, onError) {
       closeForm();
+      if (onSucess) {
+        showSuccesMessage(successForm);
+      } else if (onError) {
+        showErrorMessage(errorForm);
+      }
     });
     evt.preventDefault();
   });
 
   window.form = {
     imageEdit: imageEdit,
+  };
+
+  var onMessageEscPress = function (evt) {
+    window.util.onEscPress(evt, closeMessage);
+  };
+
+  var messageClickBtn = function (evt) {
+    var target = evt.target;
+    if (target.tagName === 'button') {
+      closeMessage();
+    }
+  };
+
+  var closeMessage = function () {
+    var modalElement = main.querySelector('.message');
+    main.removeChild(modalElement);
+    document.removeEventListener('keydown', onMessageEscPress);
+    modalElement.removeEventListener('click', messageClickBtn);
+  };
+
+  var showSuccesMessage = function (element) {
+    document.addEventListener('keydown', onMessageEscPress);
+    main.appendChild(element);
+    element.querySelector('.success__button').addEventListener('click', function () {
+      closeMessage();
+    });
+    element.addEventListener('click', messageClickBtn);
+  };
+
+  var showErrorMessage = function (element, text) {
+    main.appendChild(element);
+    element.querySelector('.error__title').textContent = text;
+    element.querySelector('.error__button').addEventListener('click', function () {
+      closeMessage();
+    });
+    element.addEventListener('click', messageClickBtn);
+    document.addEventListener('keydown', onMessageEscPress);
   };
 
   //
