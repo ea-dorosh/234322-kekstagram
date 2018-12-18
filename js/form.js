@@ -3,9 +3,9 @@
 // form.js модуль, который работает с формой редактирования изображения.
 
 (function () {
-  var successElement = document.querySelector('#success').content.querySelector('.success');
-  var errorElement = document.querySelector('#error').content.querySelector('.error');
-  var main = document.querySelector('main');
+  // var successElement = document.querySelector('#success').content.querySelector('.success');
+  // var errorElement = document.querySelector('#error').content.querySelector('.error');
+  // var main = document.querySelector('main');
 
   var onEscPress = function (evt) {
     window.util.onEscPress(evt, closeForm);
@@ -38,49 +38,53 @@
     closeForm();
   });
 
-  var onSuccess = function () {
+  /* var onSuccess = function () {
     closeForm();
     showSuccesMessage();
-  };
-
+  }; */
+  /*
   var onError = function (error) {
     closeForm();
     showErrorMessage(error);
-  };
+  }; */
 
   var form = document.querySelector('.img-upload__form');
   form.addEventListener('submit', function (evt) {
-    window.backend.upload(new FormData(form), onSuccess, onError);
+    window.backend.upload(new FormData(form), window.success.onSuccess, window.error.onError);
     evt.preventDefault();
   });
 
   window.form = {
     imageEdit: imageEdit,
+    closeForm: closeForm
   };
-
+  /*
   var onMessageEscPress = function (evt) {
     window.util.onEscPress(evt, closeMessage);
-  };
+  }; */
 
+  /*
   var closeMessage = function () {
-    var modalElement = main.querySelector('.message');
-    main.removeChild(modalElement);
-    document.removeEventListener('keydown', onMessageEscPress);
-    main.removeEventListener('click', closeMessage);
+    var modalElement = window.util.main.querySelector('.message');
+    window.util.main.removeChild(modalElement);
+    document.removeEventListener('keydown', window.util.onMessageEscPress);
+    window.util.main.removeEventListener('click', closeMessage);
   };
+  */
 
+  /*
   var showSuccesMessage = function () {
     document.addEventListener('keydown', onMessageEscPress);
     main.appendChild(successElement);
     main.addEventListener('click', closeMessage);
-  };
-
+  }; */
+  /*
   var showErrorMessage = function (text) {
-    main.appendChild(errorElement);
+    window.util.main.appendChild(errorElement);
     errorElement.querySelector('.error__title').textContent = text;
     document.addEventListener('keydown', onMessageEscPress);
     errorElement.addEventListener('click', closeMessage);
-  };
+  }; */
 
   //
   // валидность хэштегов

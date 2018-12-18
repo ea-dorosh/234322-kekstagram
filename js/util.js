@@ -17,6 +17,19 @@
         action();
       }
     },
-    body: document.querySelector('body')
+    body: document.querySelector('body'),
+    main: document.querySelector('main'),
+
+    // функция которая закрывает сообщение после загрузки по esc
+    onMessageEscPress: function (evt) {
+      window.util.onEscPress(evt, window.util.closeMessage);
+    },
+    // функция которая закрывает сообщение после загрузки
+    closeMessage: function () {
+      var modalElement = window.util.main.querySelector('.message');
+      window.util.main.removeChild(modalElement);
+      document.removeEventListener('keydown', window.util.onMessageEscPress);
+      window.util.main.removeEventListener('click', window.util.closeMessage);
+    }
   };
 })();
