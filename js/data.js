@@ -74,7 +74,7 @@
   // запускаем создание массива с нужным кол-вом фотографий
   var photos = generatePhoto(PHOTO_QUANTITY);
 
-  /*
+
   var appendPictures = function () {
     // создаем искуственный блок ФРАГМЕНТ
     var fragment = document.createDocumentFragment();
@@ -109,6 +109,24 @@
     return element;
   };
 
+  var appendPictures = function (pictures) {
+    // создаем искуственный блок ФРАГМЕНТ
+    var fragment = document.createDocumentFragment();
+    for (var i = 0; i < pictures.length; i++) {
+      fragment.appendChild(renderPicture(pictures[i]));
+    }
+    // вставляем ФРАГМЕНТ в разметку
+    document.querySelector('.pictures').appendChild(fragment);
+  };
+
+  var onLoad = function (pictures) {
+    appendPictures(pictures);
+  };
+
+
+  window.backend.load(onLoad, window.error.onError);
+
+  /*
   window.backend.load(function (pictures) {
     // создаем искуственный блок ФРАГМЕНТ
     var fragment = document.createDocumentFragment();
@@ -118,4 +136,6 @@
     // вставляем ФРАГМЕНТ в разметку
     document.querySelector('.pictures').appendChild(fragment);
   });
+*/
+
 })();
