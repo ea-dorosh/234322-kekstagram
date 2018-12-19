@@ -3,11 +3,18 @@
 // form.js модуль, который работает с формой редактирования изображения.
 
 (function () {
+  // var successElement = document.querySelector('#success').content.querySelector('.success');
+  // var errorElement = document.querySelector('#error').content.querySelector('.error');
+  // var main = document.querySelector('main');
+
+  var onEscPress = function (evt) {
+    window.util.onEscPress(evt, closeForm);
+  };
   // функция которая открывает форму загрузки новой фотографии
   var openForm = function () {
     imageEdit.classList.remove('hidden');
     window.util.body.classList.add('modal-open');
-    document.addEventListener('keydown', window.util.onEscPress);
+    document.addEventListener('keydown', onEscPress);
   };
 
   // функция которая закрывает форму загрузки новой фотографии
@@ -15,7 +22,7 @@
     uploadFile.value = '';
     imageEdit.classList.add('hidden');
     window.util.body.classList.remove('modal-open');
-    document.removeEventListener('keydown', window.util.onEscPress);
+    document.removeEventListener('keydown', onEscPress);
   };
 
   // открываем форму редактирования изображения при действие change в форме загрузки новых фотографий
@@ -31,9 +38,53 @@
     closeForm();
   });
 
+  /* var onSuccess = function () {
+    closeForm();
+    showSuccesMessage();
+  }; */
+  /*
+  var onError = function (error) {
+    closeForm();
+    showErrorMessage(error);
+  }; */
+
+  var form = document.querySelector('.img-upload__form');
+  form.addEventListener('submit', function (evt) {
+    window.backend.upload(new FormData(form), window.success.onSuccess, window.error.onError);
+    evt.preventDefault();
+  });
+
   window.form = {
     imageEdit: imageEdit,
+    closeForm: closeForm
   };
+  /*
+  var onMessageEscPress = function (evt) {
+    window.util.onEscPress(evt, closeMessage);
+  }; */
+
+  /*
+  var closeMessage = function () {
+    var modalElement = window.util.main.querySelector('.message');
+    window.util.main.removeChild(modalElement);
+    document.removeEventListener('keydown', window.util.onMessageEscPress);
+    window.util.main.removeEventListener('click', closeMessage);
+  };
+  */
+
+  /*
+  var showSuccesMessage = function () {
+    document.addEventListener('keydown', onMessageEscPress);
+    main.appendChild(successElement);
+    main.addEventListener('click', closeMessage);
+  }; */
+  /*
+  var showErrorMessage = function (text) {
+    window.util.main.appendChild(errorElement);
+    errorElement.querySelector('.error__title').textContent = text;
+    document.addEventListener('keydown', onMessageEscPress);
+    errorElement.addEventListener('click', closeMessage);
+  }; */
 
   //
   // валидность хэштегов
@@ -44,22 +95,22 @@
 
   var hashTagsInput = document.querySelector('.text__hashtags');
   hashTagsInput.addEventListener('focusin', function () {
-    document.removeEventListener('keydown', window.util.onEscPress);
+    document.removeEventListener('keydown', onEscPress);
   });
 
   hashTagsInput.addEventListener('focusout', function () {
-    document.addEventListener('keydown', window.util.onEscPress);
+    document.addEventListener('keydown', onEscPress);
   });
 
   // пунк ТЗ если фокус находится в поле ввода комментария,
   // нажатие на Esc не должно приводить к закрытию формы редактирования изображения.
   var descriptionTextarea = document.querySelector('.text__description');
   descriptionTextarea.addEventListener('focusin', function () {
-    document.removeEventListener('keydown', window.util.onEscPress);
+    document.removeEventListener('keydown', onEscPress);
   });
 
   descriptionTextarea.addEventListener('focusout', function () {
-    document.addEventListener('keydown', window.util.onEscPress);
+    document.addEventListener('keydown', onEscPress);
   });
 
   // функция которая проверяет хэштеги из массива на валидность

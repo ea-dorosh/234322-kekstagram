@@ -3,20 +3,26 @@
 // preview.js модуль для отрисовки увеличенного изображения;
 
 (function () {
+
+  var onEscPress = function (evt) {
+    window.util.onEscPress(evt, closeBigPhoto);
+  };
+
   // комментарии для большого фото
   // ищем готовую разметку в html для рандомных комментариев
   var commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
 
   var renderComment = function (comments) {
     var commentsList = document.querySelector('.social__comments');
+
     commentsList.innerHTML = '';
 
     // создаем искуственный блок ФРАГМЕНТ
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < comments.length; i++) {
       var element = commentTemplate.cloneNode(true);
-      element.querySelector('.social__picture').src = 'img/avatar-' + window.util.getRandomNumber(1, 6) + '.svg';
-      element.querySelector('.social__text').textContent = comments[i];
+      element.querySelector('.social__picture').src = comments[i].avatar;
+      element.querySelector('.social__text').textContent = comments[i].message;
       fragment.appendChild(element);
     }
     // вставляем ФРАГМЕНТ в разметку
@@ -27,14 +33,14 @@
   var openBigPhoto = function () {
     bigPicture.classList.remove('hidden');
     window.util.body.classList.add('modal-open');
-    document.addEventListener('keydown', window.util.onEscPress);
+    document.addEventListener('keydown', onEscPress);
   };
 
   // функция которая закрывает большую фотографию
   var closeBigPhoto = function () {
     bigPicture.classList.add('hidden');
     window.util.body.classList.remove('modal-open');
-    document.removeEventListener('keydown', window.util.onEscPress);
+    document.removeEventListener('keydown', onEscPress);
   };
 
   // открываем большую фотографию
@@ -61,7 +67,7 @@
   bigPicture.querySelector('.comments-loader').classList.add('visually-hidden');
 
 
-  window.data = {
+  window.preview = {
     renderBigPicture: renderBigPicture
   };
 })();

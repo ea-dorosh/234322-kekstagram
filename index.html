@@ -218,7 +218,7 @@
 
   <!-- Сообщение с ошибкой загрузки изображения -->
   <template id="error">
-    <section class="error">
+    <section class="error message">
       <div class="error__inner">
         <h2 class="error__title">Ошибка загрузки файла</h2>
         <div class="error__buttons">
@@ -231,7 +231,7 @@
 
   <!-- Сообщение об успешной загрузке изображения -->
   <template id="success">
-    <section class="success">
+    <section class="success message">
       <div class="success__inner">
         <h2 class="success__title">Изображение успешно загружено</h2>
         <button type="button" class="success__button">Круто!</button>
@@ -244,11 +244,15 @@
     <div class="img-upload__message  img-upload__message--loading">Загружаем...</div>
   </template>
 
+  <script src="js/backend.js"></script>
   <script src="js/util.js"></script>
+  <script src="js/success.js"></script>
+  <script src="js/error.js"></script>
   <script src="js/data.js"></script>
   <script src="js/preview.js"></script>
   <script src="js/form.js"></script>
   <script src="js/scale.js"></script>
   <script src="js/effects.js"></script>
+
 </body>
 </html>
