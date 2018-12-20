@@ -186,12 +186,16 @@
   };
 
   // меняем класс у кнопок при клике
+
+  var debounceFilters = window.debounce(applyFilter);
   filterFormElement.addEventListener('click', function (evt) {
     var target = evt.target;
-    if (evt.target.tagName === 'BUTTON') {
+    if (target.tagName === 'BUTTON') {
       applyFilter(target);
+      debounceFilters(evt);
     }
   });
+
 
   // фильтры закончились //////////////////////////////////////////////////////////////////////////////////
 
