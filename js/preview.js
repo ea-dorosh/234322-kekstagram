@@ -60,11 +60,14 @@
     closeBigPhoto();
   });
 
+  // var commentAmount = bigPicture.querySelector('.social__comment-count');
+  // commentAmount.innerHTML =
+
   // прячем блок счетчиков комментариев
-  bigPicture.querySelector('.social__comment-count').classList.add('visually-hidden');
+  // bigPicture.querySelector('.social__comment-count').classList.add('visually-hidden');
 
   // прячем загрузку новых комментариев
-  bigPicture.querySelector('.comments-loader').classList.add('visually-hidden');
+  // bigPicture.querySelector('.comments-loader').classList.add('visually-hidden');
 
 
   window.preview = {

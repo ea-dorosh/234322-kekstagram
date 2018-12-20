@@ -30,6 +30,19 @@
       window.util.main.removeChild(modalElement);
       document.removeEventListener('keydown', window.util.onMessageEscPress);
       window.util.main.removeEventListener('click', window.util.closeMessage);
+    },
+    filterButtonsContainer: document.querySelector('.img-filters'),
+    // функция для рандомного перемешивания массива
+    shuffleArray: function (array) {
+      var j;
+      var temp;
+      for (var i = array.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        temp = array[j];
+        array[j] = array[i];
+        array[i] = temp;
+      }
+      return array;
     }
   };
 })();

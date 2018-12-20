@@ -87,8 +87,11 @@
 
   appendPictures();
 */
-
 (function () {
+
+  // создаем пустой массив для сохранения фотографий
+  var photos = [];
+
   // ищем готовую разметку в html-странице для маленьких картинок
   var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
@@ -119,13 +122,90 @@
     document.querySelector('.pictures').appendChild(fragment);
   };
 
-  var onLoad = function (pictures) {
-    appendPictures(pictures);
+  var onLoad = function (data) {
+    // при загрузке фотографий с сервера записываем их в массив photos
+    photos = data;
+    appendPictures(photos);
+    window.util.filterButtonsContainer.classList.remove('img-filters--inactive');
+    return photos;
   };
-
 
   window.backend.load(onLoad, window.error.onError);
 
+
+  // filters.js модуль для фильтрации данных с сервера; ////////////////////////
+
+
+  var photoList = document.querySelector('.pictures');
+  var filterForm = document.querySelector('.img-filters__form');
+  var filterButtons = document.querySelectorAll('.img-filters__button');
+  var filterButtonPopular = document.querySelector('#filter-popular');
+  var filterButtonNew = document.querySelector('#filter-new');
+  var filterButtonDiscussed = document.querySelector('#filter-discussed');
+
+  // функция которая очищает список фотографий перед показом отфильтрованных
+  var deletePhotos = function () {
+    document.querySelectorAll('.picture').forEach(function (photo) {
+      photoList.removeChild(photo);
+    });
+  };
+
+  // меняем класс у кнопок при клике
+  filterForm.addEventListener('click', function (evt) {
+    var target = evt.target;
+    filterButtons.forEach(function (item) {
+      item.classList.remove('img-filters__button--active');
+    });
+    target.classList.add('img-filters__button--active');
+  });
+
+  // копируем массив загруженных фотографий
+  // var photosCopy = window.data.photos.slice();
+
+  // функция которая создает массив из 10 случайных фото
+  // но пока у меня slice не работает она создает массив из 25 фоток))
+  var generatePhotosNew = function () {
+    window.util.shuffleArray(photos);
+    photos.slice(0, 10);
+  };
+
+  // функция которая сортирует комментарии по убыванию
+  var generatePhotoDiscussed = function (array) {
+    array.sort(function (first, second) {
+      if (first.comments > second.comments) {
+        return 1;
+      } else if (first.comments < second.comments) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+    array.reverse();
+  };
+
+  filterButtonPopular.addEventListener('click', function () {
+    deletePhotos();
+    appendPictures(photos);
+  });
+
+  filterButtonNew.addEventListener('click', function () {
+    deletePhotos();
+    generatePhotosNew(photos);
+    appendPictures(photos);
+  });
+
+  filterButtonDiscussed.addEventListener('click', function () {
+    deletePhotos();
+    generatePhotoDiscussed(photos);
+    appendPictures(photos);
+  });
+
+  // фильтры закончились //////////////////////////////////////////////////////////////////////////////////
+
+  window.data = {
+    photos: photos,
+    appendPictures: appendPictures
+  };
   /*
   window.backend.load(function (pictures) {
     // создаем искуственный блок ФРАГМЕНТ
@@ -137,5 +217,4 @@
     document.querySelector('.pictures').appendChild(fragment);
   });
 */
-
 })();
