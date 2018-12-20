@@ -192,7 +192,7 @@
     var target = evt.target;
     if (target.tagName === 'BUTTON') {
       applyFilter(target);
-      debounceFilters(evt);
+      debounceFilters(target);
     }
   });
 
