@@ -74,9 +74,9 @@
         effectLevelElement.classList.add('hidden');
       } else {
         effectLevelElement.classList.remove('hidden');
-        setPinPosition(PinValue.MAX);
-        imgPreviewElement.classList.add('effects__preview--' + currentEffectName);
       }
+      setPinPosition(PinValue.MAX);
+      imgPreviewElement.classList.add('effects__preview--' + currentEffectName);
     }
   };
 
