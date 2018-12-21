@@ -32,6 +32,7 @@
   var closeForm = function () {
     uploadFileElement.value = '';
     window.effects.setDefault();
+    window.scale.scaleDefault();
     descriptionElement.value = '';
     hashtagElement.value = '';
     imageEditElement.classList.add('hidden');

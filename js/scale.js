@@ -35,6 +35,7 @@
 
   var scaleDefault = function () {
     window.effects.imgPreviewElement.style.transform = 'scale(' + ScaleValue.DEFAULT / 100 + ')';
+    scaleControlValue.value = ScaleValue.DEFAULT + '%';
   };
 
   window.scale = {

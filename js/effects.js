@@ -62,6 +62,7 @@
   var effectLevelValueElement = uploadElement.querySelector('.effect-level__value');
   var effectDepthElement = uploadElement.querySelector('.effect-level__depth');
   var effectLineElement = uploadElement.querySelector('.effect-level__line');
+  var defaultEffect = uploadElement.querySelector('#effect-none');
 
   var onImageEffectClick = function (evt) {
     var target = evt.target;
@@ -102,9 +103,12 @@
   };
 
   var setDefault = function () {
-    setPinPosition(EffectValue.DEFAULT);
+    defaultEffect.checked = true;
+    currentEffectName = DEFAULT_EFFECT;
     imgPreviewElement.classList = '';
     imgPreviewElement.classList.add('effects__preview--' + DEFAULT_EFFECT);
+    effectLevelElement.classList.add('hidden');
+    setPinPosition(EffectValue.DEFAULT);
   };
 
   effectPinElement.addEventListener('mousedown', function (evt) {
