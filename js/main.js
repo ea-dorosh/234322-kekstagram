@@ -7,13 +7,14 @@
   var photos = [];
   var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
   var photoList = document.querySelector('.pictures');
-  var filterFormElement = document.querySelector('.img-filters__form');
-  var filterElements = document.querySelectorAll('.img-filters__button');
-  var filterPopularElement = document.querySelector('#filter-popular');
-  var filterNewElement = document.querySelector('#filter-new');
-  var filterDiscussedElement = document.querySelector('#filter-discussed');
-  var filterButtonsContainer = document.querySelector('.img-filters');
 
+  var filterElement = document.querySelector('.img-filters');
+
+  var filterFormElement = filterElement.querySelector('.img-filters__form');
+  var filterElements = filterElement.querySelectorAll('.img-filters__button');
+  var filterPopularElement = filterElement.querySelector('#filter-popular');
+  var filterNewElement = filterElement.querySelector('#filter-new');
+  var filterDiscussedElement = filterElement.querySelector('#filter-discussed');
 
   var renderPicture = function (photo) {
     var element = pictureTemplate.cloneNode(true);
@@ -37,7 +38,7 @@
   var onLoad = function (data) {
     photos = data;
     appendPictures(photos);
-    filterButtonsContainer.classList.remove('img-filters--inactive');
+    filterElement.classList.remove('img-filters--inactive');
     return photos;
   };
 

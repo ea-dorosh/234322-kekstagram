@@ -13,13 +13,8 @@
     errorElement.addEventListener('click', window.util.closeMessage);
   };
 
-  var onError = function (error) {
-    window.form.closeForm();
-    showErrorMessage(error);
-  };
-
   window.error = {
-    onError: onError
+    showMessage: showErrorMessage
   };
 
 })();

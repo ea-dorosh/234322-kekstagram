@@ -48,8 +48,18 @@
     closeForm();
   });
 
+  var onSuccess = function () {
+    closeForm();
+    window.success.showMessage();
+  };
+
+  var onError = function (message) {
+    closeForm();
+    window.error.showMessage(message);
+  };
+
   formElement.addEventListener('submit', function (evt) {
-    window.backend.upload(new FormData(formElement), window.success.onSuccess, window.error.onError);
+    window.backend.upload(new FormData(formElement), onSuccess, onError);
     evt.preventDefault();
   });
 

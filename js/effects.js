@@ -84,7 +84,7 @@
   effectsListElement.addEventListener('click', onImageEffectClick);
 
   var applyEffect = function (value) {
-    if (currentEffectName === 'none') {
+    if (currentEffectName === DEFAULT_EFFECT) {
       imgPreviewElement.style.filter = '';
     } else {
       imgPreviewElement.style.filter = EffectParameter[currentEffectName].PROPERTY + '(' + getFilterValue(currentEffectName, value) + ')';

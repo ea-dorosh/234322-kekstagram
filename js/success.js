@@ -11,13 +11,8 @@
     window.util.mainElement.addEventListener('click', window.util.closeMessage);
   };
 
-  var onSuccess = function () {
-    window.form.closeForm();
-    showSuccesMessage();
-  };
-
   window.success = {
-    onSuccess: onSuccess
+    showMessage: showSuccesMessage
   };
 
 })();
