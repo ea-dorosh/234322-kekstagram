@@ -7,8 +7,8 @@
 
   var showSuccesMessage = function () {
     document.addEventListener('keydown', window.util.onMessageEscPress);
-    window.util.main.appendChild(successElement);
-    window.util.main.addEventListener('click', window.util.closeMessage);
+    window.util.mainElement.appendChild(successElement);
+    window.util.mainElement.addEventListener('click', window.util.closeMessage);
   };
 
   var onSuccess = function () {

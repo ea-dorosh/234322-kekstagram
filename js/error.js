@@ -7,7 +7,7 @@
   var errorElement = document.querySelector('#error').content.querySelector('.error');
 
   var showErrorMessage = function (text) {
-    window.util.main.appendChild(errorElement);
+    window.util.mainElement.appendChild(errorElement);
     errorElement.querySelector('.error__title').textContent = text;
     document.addEventListener('keydown', window.util.onMessageEscPress);
     errorElement.addEventListener('click', window.util.closeMessage);

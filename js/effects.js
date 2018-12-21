@@ -3,8 +3,16 @@
 // effects.js модуль, который работает с формой редактирования изображения, а точнее с ее эффектами
 
 (function () {
-  // изменение фильтра на фотографии
+
   var imgPreviewElement = document.querySelector('.img-upload__preview img');
+  var uploadElement = document.querySelector('.img-upload');
+  var effectLevelElement = document.querySelector('.img-upload__effect-level');
+  var effectsListElement = uploadElement.querySelector('.effects__list');
+  var currentEffectName = effectsListElement.querySelector('.effects__radio:checked').value;
+  var effectPinElement = window.form.imageEdit.querySelector('.effect-level__pin');
+  var effectLevelValueElement = effectLevelElement.querySelector('.effect-level__value');
+  var effectDepthElement = effectLevelElement.querySelector('.effect-level__depth');
+  var effectLineElement = effectLevelElement.querySelector('.effect-level__line');
 
   var DEFAULT_EFFECT = 'none';
 
@@ -56,36 +64,13 @@
     MAX: 100
   };
 
-  // находим фильтры для наложениея эффекта на изображение
-  // var filterRadioBtn = document.querySelector('.img-upload__effects');
-
-  // находим изображение на которое будем применять фильтр
-  var uploadElement = document.querySelector('.img-upload');
-
-  // находим слайдер для изменения глубины эффекта, накладываемого на изображение
-  var effectLevelElement = document.querySelector('.img-upload__effect-level');
-
-  // находим список фильтров для наложения эффекта на изображение
-  var effectsListElement = uploadElement.querySelector('.effects__list');
-
-  // находим фильтр который сейчас применен на изображении
-  var currentEffectName = effectsListElement.querySelector('.effects__radio:checked').value;
-
-  // создаем функцию которая меняет фильтр на изображении
   var onImageEffectClick = function (evt) {
-    // проверяем произошел ли клик на инпуте
     var target = evt.target;
     if (target.tagName !== 'INPUT') {
-      // если нет, выходим из функции
       return;
     } else {
-      // удаляем старый класс на изображении
       imgPreviewElement.classList = '';
-
-      // меняем класс на новый
       currentEffectName = target.value;
-
-      // проверяем если текущий класс "без эффекта", тогда удаляем слайдер для изменения глубины эффекта
       if (currentEffectName === DEFAULT_EFFECT) {
         effectLevelElement.classList.add('hidden');
       } else {
@@ -95,7 +80,6 @@
     }
   };
 
-  // запускаем обработчик для смены фильтра
   effectsListElement.addEventListener('click', onImageEffectClick);
 
   var applyEffect = function (value) {
@@ -110,14 +94,6 @@
     return value * (EffectParameter[effect].MAX_VALUE - EffectParameter[effect].MIN_VALUE) / EffectValue.MAX + EffectParameter[effect].MIN_VALUE + EffectParameter[effect].UNIT;
   };
 
-  //
-  // перетаскиваем ползунок слайдера DragAndDrop
-  //
-  var effectPinElement = window.form.imageEdit.querySelector('.effect-level__pin');
-  var effectLevelValueElement = effectLevelElement.querySelector('.effect-level__value');
-  var effectDepthElement = effectLevelElement.querySelector('.effect-level__depth');
-  var effectLineElement = effectLevelElement.querySelector('.effect-level__line');
-
   var setPinPosition = function (value) {
     effectPinElement.style.left = value + '%';
     effectLevelValueElement.value = Math.round(value);
@@ -127,23 +103,18 @@
 
   effectPinElement.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
-
     var startCoords = evt.clientX;
-
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
-
       var shift = startCoords - moveEvt.clientX;
       var sliderLine = effectLineElement.getBoundingClientRect();
       var newPosition = (effectPinElement.offsetLeft - shift) / sliderLine.width * 100;
-
       if (newPosition <= PinValue.MIN) {
         newPosition = PinValue.MIN;
       } else if (newPosition >= PinValue.MAX) {
         newPosition = PinValue.MAX;
       }
       setPinPosition(newPosition);
-
       startCoords = moveEvt.clientX;
     };
 
