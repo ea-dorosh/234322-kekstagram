@@ -68,13 +68,14 @@
     if (target.tagName !== 'INPUT') {
       return;
     } else {
-      imgPreviewElement.classList.add('effects__preview--' + currentEffectName);
+      imgPreviewElement.classList = '';
       currentEffectName = target.value;
       if (currentEffectName === DEFAULT_EFFECT) {
         effectLevelElement.classList.add('hidden');
       } else {
         effectLevelElement.classList.remove('hidden');
         setPinPosition(PinValue.MAX);
+        imgPreviewElement.classList.add('effects__preview--' + currentEffectName);
       }
     }
   };
@@ -102,6 +103,7 @@
 
   var setDefault = function () {
     setPinPosition(EffectValue.DEFAULT);
+    imgPreviewElement.classList = '';
     imgPreviewElement.classList.add('effects__preview--' + DEFAULT_EFFECT);
   };
 
