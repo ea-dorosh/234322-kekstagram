@@ -7,7 +7,7 @@
   var DISPLAY_COMMENTS = 5;
 
   var bigPictureElement = document.querySelector('.big-picture');
-  var commentsListElement = document.querySelector('.social__comments');
+  var commentsListElement = bigPictureElement.querySelector('.social__comments');
   var commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
   var formCloseElement = bigPictureElement.querySelector('.big-picture__cancel');
 

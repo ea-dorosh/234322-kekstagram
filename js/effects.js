@@ -68,7 +68,7 @@
     if (target.tagName !== 'INPUT') {
       return;
     } else {
-      imgPreviewElement.classList = '';
+      imgPreviewElement.classList.add('effects__preview--' + currentEffectName);
       currentEffectName = target.value;
       if (currentEffectName === DEFAULT_EFFECT) {
         effectLevelElement.classList.add('hidden');
@@ -82,7 +82,7 @@
   effectsListElement.addEventListener('click', onImageEffectClick);
 
   var applyEffect = function (value) {
-    if (getFilterValue === 'none') {
+    if (currentEffectName === 'none') {
       imgPreviewElement.style.filter = '';
     } else {
       imgPreviewElement.style.filter = EffectParameter[currentEffectName].PROPERTY + '(' + getFilterValue(currentEffectName, value) + ')';
@@ -98,6 +98,11 @@
     effectLevelValueElement.value = Math.round(value);
     effectDepthElement.style.width = effectPinElement.style.left;
     applyEffect(value);
+  };
+
+  var setDefault = function () {
+    setPinPosition(EffectValue.DEFAULT);
+    imgPreviewElement.classList.add('effects__preview--' + DEFAULT_EFFECT);
   };
 
   effectPinElement.addEventListener('mousedown', function (evt) {
@@ -129,6 +134,7 @@
 
   window.effects = {
     imgPreviewElement: imgPreviewElement,
+    setDefault: setDefault
   };
 
 })();

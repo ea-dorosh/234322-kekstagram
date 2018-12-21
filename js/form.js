@@ -31,6 +31,9 @@
 
   var closeForm = function () {
     uploadFileElement.value = '';
+    window.effects.setDefault();
+    descriptionElement.value = '';
+    hashtagElement.value = '';
     imageEditElement.classList.add('hidden');
     window.util.bodyElement.classList.remove('modal-open');
     document.removeEventListener('keydown', onEscPress);

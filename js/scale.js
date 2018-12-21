@@ -32,4 +32,13 @@
   scaleControlBigger.addEventListener('click', function () {
     setPhotoScale(1);
   });
+
+  var scaleDefault = function () {
+    window.effects.imgPreviewElement.style.transform = 'scale(' + ScaleValue.DEFAULT / 100 + ')';
+  };
+
+  window.scale = {
+    scaleDefault: scaleDefault
+  };
+
 })();
