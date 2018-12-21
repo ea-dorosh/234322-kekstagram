@@ -4,14 +4,6 @@
 
 (function () {
 
-  var uploadFile = document.querySelector('#upload-file');
-  var imageEdit = document.querySelector('.img-upload__overlay');
-  var hashtagElement = document.querySelector('.text__hashtags');
-  var formElement = document.querySelector('.img-upload__form');
-  var imageEditCloseBtn = imageEdit.querySelector('.img-upload__cancel');
-  var descriptionTextarea = document.querySelector('.text__description');
-  var buttonSendForm = document.querySelector('.img-upload__submit');
-
   var Hashtag = {
     MAX_QUANTITY: 5,
     MIN_LENGTH: 1,
@@ -19,24 +11,32 @@
     HASH_SYMBOL: '#'
   };
 
+  var uploadFileElement = document.querySelector('#upload-file');
+  var imageEditElement = document.querySelector('.img-upload__overlay');
+  var hashtagElement = document.querySelector('.text__hashtags');
+  var formElement = document.querySelector('.img-upload__form');
+  var imageEditCloseBtn = imageEditElement.querySelector('.img-upload__cancel');
+  var descriptionElement = document.querySelector('.text__description');
+  var imgSubmitButtonElement = document.querySelector('.img-upload__submit');
+
   var onEscPress = function (evt) {
     window.util.onEscPress(evt, closeForm);
   };
 
   var openForm = function () {
-    imageEdit.classList.remove('hidden');
+    imageEditElement.classList.remove('hidden');
     window.util.bodyElement.classList.add('modal-open');
     document.addEventListener('keydown', onEscPress);
   };
 
   var closeForm = function () {
-    uploadFile.value = '';
-    imageEdit.classList.add('hidden');
+    uploadFileElement.value = '';
+    imageEditElement.classList.add('hidden');
     window.util.bodyElement.classList.remove('modal-open');
     document.removeEventListener('keydown', onEscPress);
   };
 
-  uploadFile.addEventListener('change', function () {
+  uploadFileElement.addEventListener('change', function () {
     openForm();
   });
 
@@ -58,11 +58,11 @@
     document.addEventListener('keydown', onEscPress);
   });
 
-  descriptionTextarea.addEventListener('focusin', function () {
+  descriptionElement.addEventListener('focusin', function () {
     document.removeEventListener('keydown', onEscPress);
   });
 
-  descriptionTextarea.addEventListener('focusout', function () {
+  descriptionElement.addEventListener('focusout', function () {
     document.addEventListener('keydown', onEscPress);
   });
 
@@ -112,13 +112,12 @@
     }
   };
 
-  buttonSendForm.addEventListener('click', function () {
+  imgSubmitButtonElement.addEventListener('click', function () {
     checkHashTagsValidity();
     highlightInvalidField(hashtagElement);
   });
 
   window.form = {
-    imageEdit: imageEdit,
     closeForm: closeForm
   };
 

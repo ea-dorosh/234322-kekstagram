@@ -4,16 +4,17 @@
 
 (function () {
 
-  var scaleControlValue = window.form.imageEdit.querySelector('.scale__control--value');
-  var scaleControlSmaller = window.form.imageEdit.querySelector('.scale__control--smaller');
-  var scaleControlBigger = window.form.imageEdit.querySelector('.scale__control--bigger');
-
   var ScaleValue = {
     MIN: 25,
     STEP: 25,
     MAX: 100,
     DEFAULT: 100
   };
+
+  var scaleControlElement = document.querySelector('.img-upload__scale');
+  var scaleControlValue = scaleControlElement.querySelector('.scale__control--value');
+  var scaleControlSmaller = scaleControlElement.querySelector('.scale__control--smaller');
+  var scaleControlBigger = scaleControlElement.querySelector('.scale__control--bigger');
 
   var setPhotoScale = function (figure) {
     var currentScale = parseInt(scaleControlValue.value, 10);

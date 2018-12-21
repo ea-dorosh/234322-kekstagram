@@ -12,6 +12,7 @@
   var filterPopularElement = document.querySelector('#filter-popular');
   var filterNewElement = document.querySelector('#filter-new');
   var filterDiscussedElement = document.querySelector('#filter-discussed');
+  var filterButtonsContainer = document.querySelector('.img-filters');
 
 
   var renderPicture = function (photo) {
@@ -36,7 +37,7 @@
   var onLoad = function (data) {
     photos = data;
     appendPictures(photos);
-    window.util.filterButtonsContainer.classList.remove('img-filters--inactive');
+    filterButtonsContainer.classList.remove('img-filters--inactive');
     return photos;
   };
 
@@ -86,13 +87,11 @@
   filterFormElement.addEventListener('click', function (evt) {
     var target = evt.target;
     if (target.tagName === 'BUTTON') {
-      applyFilter(target);
       debounceFilters(target);
     }
   });
 
   window.data = {
     photos: photos,
-    appendPictures: appendPictures
   };
 })();

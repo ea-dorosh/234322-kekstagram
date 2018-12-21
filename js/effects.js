@@ -3,17 +3,6 @@
 // effects.js модуль, который работает с формой редактирования изображения, а точнее с ее эффектами
 
 (function () {
-
-  var imgPreviewElement = document.querySelector('.img-upload__preview img');
-  var uploadElement = document.querySelector('.img-upload');
-  var effectLevelElement = document.querySelector('.img-upload__effect-level');
-  var effectsListElement = uploadElement.querySelector('.effects__list');
-  var currentEffectName = effectsListElement.querySelector('.effects__radio:checked').value;
-  var effectPinElement = window.form.imageEdit.querySelector('.effect-level__pin');
-  var effectLevelValueElement = effectLevelElement.querySelector('.effect-level__value');
-  var effectDepthElement = effectLevelElement.querySelector('.effect-level__depth');
-  var effectLineElement = effectLevelElement.querySelector('.effect-level__line');
-
   var DEFAULT_EFFECT = 'none';
 
   var EffectParameter = {
@@ -63,6 +52,16 @@
     MIN: 0,
     MAX: 100
   };
+
+  var uploadElement = document.querySelector('.img-upload');
+  var imgPreviewElement = uploadElement.querySelector('.img-upload__preview img');
+  var effectLevelElement = uploadElement.querySelector('.img-upload__effect-level');
+  var effectsListElement = uploadElement.querySelector('.effects__list');
+  var currentEffectName = effectsListElement.querySelector('.effects__radio:checked').value;
+  var effectPinElement = uploadElement.querySelector('.effect-level__pin');
+  var effectLevelValueElement = uploadElement.querySelector('.effect-level__value');
+  var effectDepthElement = uploadElement.querySelector('.effect-level__depth');
+  var effectLineElement = uploadElement.querySelector('.effect-level__line');
 
   var onImageEffectClick = function (evt) {
     var target = evt.target;
