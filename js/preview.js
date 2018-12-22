@@ -11,7 +11,7 @@
   var commentsListElement = bigPictureElement.querySelector('.social__comments');
   var commentElement = document.querySelector('.social__footer-text');
   var loadCommentButton = bigPictureElement.querySelector('.comments-loader');
-  var socialCommentCount = bigPictureElement.querySelector('.social__comment-count');
+  var commentCountElement = bigPictureElement.querySelector('.social__comment-count');
   var formCloseElement = bigPictureElement.querySelector('.big-picture__cancel');
 
   var onEscPress = function (evt) {
@@ -34,18 +34,26 @@
       fragment.appendChild(element);
     }
     document.querySelector('.social__comments').appendChild(fragment);
+    updateCommentsCount(comments.length);
   };
 
-  socialCommentCount.innerHTML = 'comments-count из <span class="comments-count">125</span> комментариев';
+  var updateCommentsCount = function (count) {
+    var displayedComments = bigPictureElement.querySelectorAll('.social__comment:not(.visually-hidden)').length;
+    var commentsCount = displayedComments + ' из ' + '<span class="comments-count">' + count + '</span>' + ' комментариев';
+    commentCountElement.innerHTML = commentsCount;
+  };
 
   var loadComment = function () {
+    var commentsAmount = bigPictureElement.querySelectorAll('.social__comment');
     var hiddenCommentElements = commentsListElement.querySelectorAll('.visually-hidden');
     for (var i = 0; i < DISPLAY_COMMENTS; i++) {
       if (!hiddenCommentElements[i]) {
         loadCommentButton.classList.add('hidden');
+        updateCommentsCount(commentsAmount.length);
         return;
       }
       hiddenCommentElements[i].classList.remove('visually-hidden');
+      updateCommentsCount(commentsAmount.length);
     }
   };
 
