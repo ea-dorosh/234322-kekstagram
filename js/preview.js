@@ -10,6 +10,8 @@
   var commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
   var commentsListElement = bigPictureElement.querySelector('.social__comments');
   var commentElement = document.querySelector('.social__footer-text');
+  var loadCommentButton = bigPictureElement.querySelector('.comments-loader');
+  var socialCommentCount = bigPictureElement.querySelector('.social__comment-count');
   var formCloseElement = bigPictureElement.querySelector('.big-picture__cancel');
 
   var onEscPress = function (evt) {
@@ -24,12 +26,32 @@
       if (i >= DISPLAY_COMMENTS) {
         element.classList.add('visually-hidden');
       }
+      if (comments.length <= DISPLAY_COMMENTS) {
+        loadCommentButton.classList.add('hidden');
+      }
       element.querySelector('.social__picture').src = comments[i].avatar;
       element.querySelector('.social__text').textContent = comments[i].message;
       fragment.appendChild(element);
     }
     document.querySelector('.social__comments').appendChild(fragment);
   };
+
+  socialCommentCount.innerHTML = 'comments-count из <span class="comments-count">125</span> комментариев';
+
+  var loadComment = function () {
+    var hiddenCommentElements = commentsListElement.querySelectorAll('.visually-hidden');
+    for (var i = 0; i < DISPLAY_COMMENTS; i++) {
+      if (!hiddenCommentElements[i]) {
+        loadCommentButton.classList.add('hidden');
+        return;
+      }
+      hiddenCommentElements[i].classList.remove('visually-hidden');
+    }
+  };
+
+  loadCommentButton.addEventListener('click', function () {
+    loadComment();
+  });
 
   var openBigPhoto = function () {
     bigPictureElement.classList.remove('hidden');
@@ -49,6 +71,7 @@
     bigPictureElement.classList.add('hidden');
     window.util.bodyElement.classList.remove('modal-open');
     document.removeEventListener('keydown', onEscPress);
+    loadCommentButton.classList.remove('hidden');
   };
 
   var renderBigPicture = function (photo) {
@@ -63,8 +86,6 @@
   formCloseElement.addEventListener('click', function () {
     closeBigPhoto();
   });
-
-  bigPictureElement.querySelector('.comments-loader').classList.add('visually-hidden');
 
   window.preview = {
     renderBigPicture: renderBigPicture
