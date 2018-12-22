@@ -119,7 +119,7 @@
   };
 
   var highlightInvalidField = function (field) {
-    field.style.outline = !field.validity.valid ? field.style.outline = '2px solid red' : field.style.outline = 'none';
+    field.style.outline = !field.validity.valid ? '2px solid red' : 'none';
   };
 
   imgSubmitButtonElement.addEventListener('click', function () {
