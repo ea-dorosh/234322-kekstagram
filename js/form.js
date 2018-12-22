@@ -119,20 +119,12 @@
   };
 
   var highlightInvalidField = function (field) {
-    if (!field.validity.valid) {
-      field.style.outline = '2px solid red';
-    } else {
-      field.style.outline = 'none';
-    }
+    field.style.outline = !field.validity.valid ? field.style.outline = '2px solid red' : field.style.outline = 'none';
   };
 
   imgSubmitButtonElement.addEventListener('click', function () {
     checkHashTagsValidity();
     highlightInvalidField(hashtagElement);
   });
-
-  window.form = {
-    closeForm: closeForm
-  };
 
 })();

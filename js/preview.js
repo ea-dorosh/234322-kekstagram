@@ -7,8 +7,9 @@
   var DISPLAY_COMMENTS = 5;
 
   var bigPictureElement = document.querySelector('.big-picture');
-  var commentsListElement = bigPictureElement.querySelector('.social__comments');
   var commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
+  var commentsListElement = bigPictureElement.querySelector('.social__comments');
+  var commentElement = document.querySelector('.social__footer-text');
   var formCloseElement = bigPictureElement.querySelector('.big-picture__cancel');
 
   var onEscPress = function (evt) {
@@ -35,6 +36,14 @@
     window.util.bodyElement.classList.add('modal-open');
     document.addEventListener('keydown', onEscPress);
   };
+
+  commentElement.addEventListener('focusout', function () {
+    document.addEventListener('keydown', onEscPress);
+  });
+
+  commentElement.addEventListener('focusin', function () {
+    document.removeEventListener('keydown', onEscPress);
+  });
 
   var closeBigPhoto = function () {
     bigPictureElement.classList.add('hidden');

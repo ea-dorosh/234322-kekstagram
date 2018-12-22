@@ -92,7 +92,4 @@
     }
   });
 
-  window.data = {
-    photos: photos,
-  };
 })();

@@ -7,35 +7,30 @@
 
   var EffectParameter = {
     chrome: {
-      CLASS: 'effects__preview--chrome',
       PROPERTY: 'grayscale',
       MIN_VALUE: 0,
       MAX_VALUE: 1,
       UNIT: ''
     },
     sepia: {
-      CLASS: 'effects__preview--sepia',
       PROPERTY: 'sepia',
       MIN_VALUE: 0,
       MAX_VALUE: 1,
       UNIT: ''
     },
     marvin: {
-      CLASS: 'effects__preview--marvin',
       PROPERTY: 'invert',
       MIN_VALUE: 0,
       MAX_VALUE: 100,
       UNIT: '%'
     },
     phobos: {
-      CLASS: 'effects__preview--phobos',
       PROPERTY: 'blur',
       MIN_VALUE: 0,
       MAX_VALUE: 3,
       UNIT: 'px'
     },
     heat: {
-      CLASS: 'effects__preview--heat',
       PROPERTY: 'brightness',
       MIN_VALUE: 1,
       MAX_VALUE: 3,
@@ -68,27 +63,22 @@
     var target = evt.target;
     if (target.tagName !== 'INPUT') {
       return;
-    } else {
-      imgPreviewElement.classList = '';
-      currentEffectName = target.value;
-      if (currentEffectName === DEFAULT_EFFECT) {
-        effectLevelElement.classList.add('hidden');
-      } else {
-        effectLevelElement.classList.remove('hidden');
-      }
-      setPinPosition(PinValue.MAX);
-      imgPreviewElement.classList.add('effects__preview--' + currentEffectName);
     }
+    imgPreviewElement.classList = '';
+    currentEffectName = target.value;
+    if (currentEffectName === DEFAULT_EFFECT) {
+      effectLevelElement.classList.add('hidden');
+    } else {
+      effectLevelElement.classList.remove('hidden');
+    }
+    setPinPosition(PinValue.MAX);
+    imgPreviewElement.classList.add('effects__preview--' + currentEffectName);
   };
 
   effectsListElement.addEventListener('click', onImageEffectClick);
 
   var applyEffect = function (value) {
-    if (currentEffectName === DEFAULT_EFFECT) {
-      imgPreviewElement.style.filter = '';
-    } else {
-      imgPreviewElement.style.filter = EffectParameter[currentEffectName].PROPERTY + '(' + getFilterValue(currentEffectName, value) + ')';
-    }
+    imgPreviewElement.style.filter = currentEffectName === DEFAULT_EFFECT ? '' : EffectParameter[currentEffectName].PROPERTY + '(' + getFilterValue(currentEffectName, value) + ')';
   };
 
   var getFilterValue = function (effect, value) {
