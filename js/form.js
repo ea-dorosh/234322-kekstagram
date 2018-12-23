@@ -42,6 +42,7 @@
 
   uploadFileElement.addEventListener('change', function () {
     openForm();
+    window.picture.uploadPictrue();
   });
 
   imageEditCloseBtn.addEventListener('click', function () {
